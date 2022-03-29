@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ttt-mreji-net
+  namespace: ttt
+spec:
+  commonName: ttt.mreji.net
+  dnsNames:
+  - ttt.mreji.net
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: ttt-mreji-net
+
