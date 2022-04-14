@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blue
+  namespace: blue
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: blue.ttt.mreji.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: blue
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - blue.ttt.mreji.net
+    secretName: blue-ttt-mreji-net
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: green
+  namespace: green
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: green.ttt.mreji.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: green
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - green.ttt.mreji.net
+    secretName: green-ttt-mreji-net

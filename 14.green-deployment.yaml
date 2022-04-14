@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green
+  namespace: green
+  labels:
+    app: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: green
+      tier: green
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: green
+        tier: green
+    spec:
+      containers:
+      - image: php:7.4-apache
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        resources:
+          requests:
+            memory: 32Mi
+            cpu: 5m
+        name: green
+        volumeMounts:
+        - name: index
+          mountPath: /var/www/html
+          # subPath: index.php
+      volumes:
+      - name: index
+        configMap:
+          name: index
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: index
+  namespace: green
+data:
+  index.php: |
+    <html>
+    <head>
+        <style>
+            .content {
+            font-size: 4em;
+            background-color: <?php echo (sprintf('#%06X', mt_rand(0, 0xFFFFFF)) )?>;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="content">
+            <?php echo $_SERVER['SERVER_ADDR'];  ?><br>
+            <?php echo $_SERVER['HTTP_HOST'];    ?><br>
+            <?php echo (gethostname());  ?>
+        </div>
+        <script>
+            setTimeout(function(){ 
+                location.reload(); 
+            }, 2000);
+        </script>
+    </body>
+    </html>

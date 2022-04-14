@@ -1,0 +1,29 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blue-ttt-mreji-net
+  namespace: blue
+spec:
+  commonName: blue.ttt.mreji.net
+  dnsNames:
+  - blue.ttt.mreji.net
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: blue-ttt-mreji-net
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: green-ttt-mreji-net
+  namespace: green
+spec:
+  commonName: green.ttt.mreji.net
+  dnsNames:
+  - green.ttt.mreji.net
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: green-ttt-mreji-net
+
+
